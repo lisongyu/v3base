@@ -1,39 +1,28 @@
 <template>
-  <div>
-    <h2>{{counter}}</h2>
-    <button @click="increment">+1</button>
-     <button @click="decrement">-1</button>
-     <div>总价值{{$store.getters.totalPrice}}</div>
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about" >About</router-link>
+    <div @click="goAbout">跳转About</div>
   </div>
-
+  <router-view v-slot='props'>
+    <transition name="why">
+    <component :is="props.Component"></component>
+    </transition>
+  </router-view>
 </template>
 
 <script>
 
-import {useState} from './hooks/useState'
+import {useRouter} from 'vue-router'
 export default {
-  // computed:{
-  //   ...mapState(['counter'])
-
-  // },
-  methods:{
-    increment(){
-      this.$store.commit('increment')
-
-    },
-    decrement(){
-       this.$store.commit('decrement')
-    }
-  },
   setup() {
-    const storeState=useState(['counter'])
-    
-
-
-   return {
-     ...storeState
-   }
-
+    const router =useRouter();
+    const goAbout=()=>{
+      router.push('/about')
+    }
+    return {
+      goAbout
+    }
   }
   
 }

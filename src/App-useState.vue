@@ -3,14 +3,14 @@
     <h2>{{counter}}</h2>
     <button @click="increment">+1</button>
      <button @click="decrement">-1</button>
-     <div>总价值{{$store.getters.totalPrice}}</div>
   </div>
 
 </template>
 
 <script>
 
-import {useState} from './hooks/useState'
+import {mapState,useStore} from 'vuex'
+import {computed} from 'vue'
 export default {
   // computed:{
   //   ...mapState(['counter'])
@@ -26,11 +26,18 @@ export default {
     }
   },
   setup() {
-    const storeState=useState(['counter'])
     
-
+   const store =useStore()
+   const sCounter=computed(()=> store.state.counter)
+   const storeState={}
+   const storeStateFns=mapState(['counter'])
+   Object.keys(storeStateFns).forEach(fnKey=>{
+     const fn=storeStateFns[fnKey].bind({$store:store})
+     storeState[fnKey]=computed(fn)
+   })
 
    return {
+     sCounter,
      ...storeState
    }
 
