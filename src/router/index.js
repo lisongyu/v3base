@@ -22,11 +22,10 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to,from)=>{
+router.
+beforeEach((to,from)=>{
 
-  console.log('进行了跳转'+to.path)
-
-  console.log('来源'+from.path)
+ 
 
 })
 
